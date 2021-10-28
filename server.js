@@ -35,6 +35,6 @@ app.post("/", async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log('Serveri u ndez ne porten: '+port);
+app.listen(process.env.PORT || port, () => {
+    console.log('Serveri u ndez...');
 });

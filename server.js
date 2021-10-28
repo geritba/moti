@@ -1,23 +1,26 @@
 const express = require("express");
 const fetch = require("node-fetch");
 const bodyParser = require("body-parser");
+const rateLimit = require("express-rate-limit");
 const app = express();
-const port = 3000
 
+import Weather from './service/Weather';
+const port = 3000
 require("dotenv").config();
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
 app.get("/", (req, res) => {
-    let locDate = { temp: "Temp", pershkrimi: "Pershkrimi", vendndodhja: "Vendndodhja", lageshtia: "Lageshtia ", ndjesia: "Ndjehet si ", shpejtesia: "Shpejtesia" };
-    res.render("index", { locDate: locDate,});
+    const locDate = Weather.OpenWeatherApi(data, vendndodhja);
+res.render("index", { locDate });
 });
 
 app.post("/", async (req, res) => {
     try {
         const vendndodhja = await req.body.city;
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${vendndodhja}&appid=${process.env.APIKEY}&units=metric`;
+        const url = `${process.env.BASE_URL}q=${vendndodhja}&appid=${process.env.APIKEY}&units=metric`;
         let response = await fetch(url);
         let data = await response.json();
         let locDate = {};

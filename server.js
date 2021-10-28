@@ -3,16 +3,11 @@ const fetch = require("node-fetch");
 const bodyParser = require("body-parser");
 const rateLimit = require("express-rate-limit");
 const app = express();
-import rateLimit from 'express-rate-limit';
+
 import Weather from './service/Weather';
 const port = 3000
 require("dotenv").config();
 
-const limiter = rateLimit({
-    windowMs: 1000,
-    max: 5
-})
-app.use(limiter);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
